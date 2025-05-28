@@ -117,13 +117,3 @@ Made with ❤️ by [Varinder Dhillon](https://github.com/varinder-dhillon)
 
 ---
 
-## 📄 License
-
-This project is licensed under the ISC License.
-
-```
-
----
-
-Let me know if you'd like to include images (e.g., architecture diagram or example API response), or if you're deploying it (e.g., Vercel, Fly.io, Render) and want a deployment section.
-```
