@@ -4,11 +4,14 @@ import rateLimit from "express-rate-limit";
 import morgan from "morgan";
 import globalErrorHandler from "./controller/appError.controller";
 import AppError from "./utils/appError";
+import boardRouter from "./routes/board.routes";
+
+
+
 
 const app = express();
 
 // Global middleware
-
 // Security headers
 app.use(helmet());
 // Request logs
@@ -28,9 +31,7 @@ app.use(express.json({
 }));
 
 // Routes
-app.use("/api/test", (req, res, next)=> {
-    res.status(200).json({message: "success!"})
-})
+app.use("/api/v1/boards", boardRouter);
 
 // unhandled route 
 app.use(/.*/, (req, res, next) => {
