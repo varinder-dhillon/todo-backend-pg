@@ -2,6 +2,8 @@ import express from "express";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import morgan from "morgan";
+import globalErrorHandler from "./controller/appError.controller";
+import AppError from "./utils/appError";
 
 const app = express();
 
@@ -20,9 +22,21 @@ const limitter = rateLimit({
 })
 app.use("/api", limitter);
 
-// Routes
+// Body parser
+app.use(express.json({
+    limit: "10kb"
+}));
 
+// Routes
+app.use("/api/test", (req, res, next)=> {
+    res.status(200).json({message: "success!"})
+})
+
+// unhandled route 
+app.use(/.*/, (req, res, next) => {
+    next(new AppError(`Can't find the ${req.originalUrl} on this server!`, 404))
+})
 
 // Global Error handler
-
+app.use(globalErrorHandler);
 export default app;
