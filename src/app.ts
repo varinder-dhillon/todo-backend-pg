@@ -5,6 +5,7 @@ import morgan from "morgan";
 import globalErrorHandler from "./controller/appError.controller";
 import AppError from "./utils/appError";
 import boardRouter from "./routes/board.routes";
+import { initDb } from "./config/initDb";
 
 
 
@@ -31,6 +32,7 @@ app.use(express.json({
 }));
 
 // Routes
+app.use("/dbInit", initDb);
 app.use("/api/v1/boards", boardRouter);
 
 // unhandled route 
