@@ -11,7 +11,7 @@ export const createBoard = catchAsync(async (req, res, next) => {
 
     const createBoardQueryResult = await pool.query(createBoardQuery);
 
-    if(!createBoardQueryResult?.rows?.[0]?.id) return new AppError("Board is nor created. Please try again later!", status.fail)
+    if(!createBoardQueryResult?.rows?.[0]?.id) return next(new AppError("Board is nor created. Please try again later!", status.fail));
     const boardId = createBoardQueryResult?.rows?.[0]?.id;
     const createBoardTasksQueryResult = await Promise.all(
         tasks.map((item) => {
