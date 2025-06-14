@@ -4,7 +4,7 @@ import { createBoard } from "../controller/board.controller";
 
 const router = express.Router();
 
-router.get("/", createBoard)
+router.post("/", createBoard)
 
 
 export default router;

@@ -8,6 +8,8 @@ import { pool } from "./database";
 export const initDb = catchAsync(async (req, res, next) => {
 
     try {
+        await pool.query(`DROP TABLE todos;`)
+        await pool.query(`DROP TABLE board;`)
         await pool.query(`
             CREATE TABLE IF NOT EXISTS board (
                 id SERIAL PRIMARY KEY,
@@ -25,7 +27,7 @@ export const initDb = catchAsync(async (req, res, next) => {
                 description TEXT DEFAULT '',
                 boardId INTEGER NOT NULL REFERENCES board(id) ON DELETE CASCADE,
                 icon TEXT NOT NULL CHECK (icon IN ('work', 'thinking', 'tea', 'exercise', 'study', 'clock')),
-                status TEXT CHECK (status IN ('inProgress', 'completed', 'wontDo')),
+                status TEXT CHECK (status IN ('inProgress', 'completed', 'wontDo', '')),
                 created_at TIMESTAMP DEFAULT NOW(),
                 updated_at TIMESTAMP DEFAULT NOW()
             );
