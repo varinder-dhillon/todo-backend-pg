@@ -8,7 +8,7 @@ type Controller = (
 
 const catchAsync = (fn:Controller): RequestHandler => {
     return (req, res, next) => {
-        fn(req, res, next)
+        fn(req, res, next).catch(next)
     }
 }
 

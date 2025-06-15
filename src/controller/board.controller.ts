@@ -94,3 +94,19 @@ export const getBoard = catchAsync(async (req, res, next) => {
     })
 
 })
+
+export const deleteBoard = catchAsync(async (req, res, next) => {
+    const id = Number(req?.params?.id);
+    if(!id) next(new AppError("Board id is not present in the Req", status.fail));
+    
+    const query = `
+        DELETE FROM board WHERE board.id = $1;
+    `;
+
+    const queryResult = await pool.query(query, [id]);
+
+    res.status(status.success).json({
+        status: "Success",
+        message: "Board Deleted!"
+    })
+}) 
