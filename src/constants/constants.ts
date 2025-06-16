@@ -1,6 +1,6 @@
-import {Task} from "./interface"
+// import { ITask } from "./interface"
 
-export const tasks:Task[] = [
+export const tasks = [
     {
         name: "Task in progress",
         icon: "clock",

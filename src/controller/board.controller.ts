@@ -1,8 +1,13 @@
+import { z } from "zod";
 import { pool } from "../config/database";
 import { tasks } from "../constants/constants";
+import { BoardSchema, IBoard } from "../constants/interface";
 import { status } from "../constants/reqStatus";
 import AppError from "../utils/appError";
 import catchAsync from "../utils/catchAsync";
+import { formatZodErrors } from "../utils/zodErrors";
+
+
 
 export const createBoard = catchAsync(async (req, res, next) => {
     
@@ -94,6 +99,41 @@ export const getBoard = catchAsync(async (req, res, next) => {
     })
 
 })
+
+export const updateBoard = catchAsync(async (req, res, next) => {
+    const id:Number = +req.params.id;
+    if(!id) return next(new AppError("Board id is not present in the Req", status.fail));
+    if(!req.body) return next(new AppError("Required data is not present in the Req body", status.fail));
+
+    const {name, description} = req.body;
+
+    const parsed = BoardSchema.safeParse(req.body); 
+    if (!parsed.success) {
+        const errors = formatZodErrors(parsed.error.format())
+        return res.status(400).json({
+            status: "fail",
+            errors, // <-- clean field-wise error object
+            message: "Validation error"
+        });
+    }
+
+    const query = `
+        UPDATE board
+            SET
+                name = $2,
+                description = COALESCE($3, description)
+        WHERE id = $1 RETURNING *;
+    `;
+
+    const queryResult = await pool.query(query, [id, name, description || null]);
+    if (queryResult.rowCount === 0) return next(new AppError(`No board found with id ${id}`, status.notFound));
+
+    res.status(status.success).json({
+        status: "Success",
+        data: queryResult.rows[0]
+    })
+
+});
 
 export const deleteBoard = catchAsync(async (req, res, next) => {
     const id = Number(req?.params?.id);
