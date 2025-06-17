@@ -2,7 +2,7 @@ import { z } from "zod";
 
 
 export const BoardSchema = z.object({
-    name: z.string().trim().min(1, "Name can't be empty!"),
+    name: z.string().trim().optional(),
     description: z.string().trim().optional(),
     created_at: z.date().optional(),
     updated_at: z.date().optional(),

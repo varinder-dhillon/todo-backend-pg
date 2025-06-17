@@ -103,9 +103,9 @@ export const getBoard = catchAsync(async (req, res, next) => {
 export const updateBoard = catchAsync(async (req, res, next) => {
     const id:Number = +req.params.id;
     if(!id) return next(new AppError("Board id is not present in the Req", status.fail));
-    if(!req.body) return next(new AppError("Required data is not present in the Req body", status.fail));
-
+    
     const {name, description} = req.body;
+    if(!req.body || (!name && !description)) return next(new AppError("Required data is not present in the Req body", status.fail));
 
     const parsed = BoardSchema.safeParse(req.body); 
     if (!parsed.success) {
@@ -120,7 +120,7 @@ export const updateBoard = catchAsync(async (req, res, next) => {
     const query = `
         UPDATE board
             SET
-                name = $2,
+                name = COALESCE($2, name),
                 description = COALESCE($3, description)
         WHERE id = $1 RETURNING *;
     `;
