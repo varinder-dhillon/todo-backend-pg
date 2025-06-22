@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { pool } from "../config/database";
 import { tasks } from "../constants/constants";
-import { BoardSchema, IBoard } from "../constants/interface";
+import { BoardSchema } from "../constants/interface";
 import { status } from "../constants/reqStatus";
 import AppError from "../utils/appError";
 import catchAsync from "../utils/catchAsync";
