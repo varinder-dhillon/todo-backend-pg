@@ -5,6 +5,7 @@ import morgan from "morgan";
 import globalErrorHandler from "./controller/appError.controller";
 import AppError from "./utils/appError";
 import boardRouter from "./routes/board.routes";
+import taskRouter from "./routes/task.routes";
 import { initDb } from "./config/initDb";
 
 
@@ -34,6 +35,7 @@ app.use(express.json({
 // Routes
 app.use("/dbInit", initDb);
 app.use("/api/v1/boards", boardRouter);
+app.use("/api/v1/tasks", taskRouter);
 
 // unhandled route 
 app.use(/.*/, (req, res, next) => {
