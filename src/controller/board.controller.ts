@@ -144,7 +144,8 @@ export const deleteBoard = catchAsync(async (req, res, next) => {
     `;
 
     const queryResult = await pool.query(query, [id]);
-
+    if (queryResult.rowCount === 0) return next(new AppError(`No board found with id ${id}`, status.notFound));
+    
     res.status(status.success).json({
         status: "Success",
         message: "Board Deleted!"
