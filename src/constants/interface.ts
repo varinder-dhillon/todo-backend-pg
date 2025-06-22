@@ -18,7 +18,7 @@ export type IBoard = z.infer<typeof BoardSchema>;
 // }
 
 export const TaskSchema = z.object({
-    name: z.string().trim().min(1, "Name can't be empty!"),
+    name: z.string().trim(),
     description: z.string().trim(),
     icon: z.string().trim(),
     status: z.string().trim(),
