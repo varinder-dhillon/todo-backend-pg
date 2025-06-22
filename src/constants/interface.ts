@@ -18,9 +18,9 @@ export type IBoard = z.infer<typeof BoardSchema>;
 // }
 
 export const TaskSchema = z.object({
-    name: z.string().trim(),
+    name: z.string().trim().min(1, 'Name is required!'),
     description: z.string().trim(),
-    icon: z.string().trim(),
+    icon: z.string().trim().min(1, 'Name is required!'),
     status: z.string().trim(),
     boardId: z.number().min(1, 'Board Id is required!'),
     created_at: z.date().optional(),
